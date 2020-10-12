@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PersonManagementTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Abteilung">
+          <Key>
+            <PropertyRef Name="AbteilungId" />
+          </Key>
+          <Property Name="AbteilungId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="SecondName" Type="varchar" MaxLength="50" />
+          <Property Name="Street" Type="varchar" MaxLength="50" />
+          <Property Name="Plz" Type="varchar" MaxLength="20" />
+          <Property Name="Place" Type="varchar" MaxLength="50" />
+          <Property Name="AbteilungId" Type="int" />
+        </EntityType>
+        <Association Name="FK_Person_Abteilung">
+          <End Role="Abteilung" Type="Self.Abteilung" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Abteilung">
+              <PropertyRef Name="AbteilungId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="AbteilungId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PersonManagementTestModelStoreContainer">
+          <EntitySet Name="Abteilung" EntityType="Self.Abteilung" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Person_Abteilung" Association="Self.FK_Person_Abteilung">
+            <End Role="Abteilung" EntitySet="Abteilung" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PersonManagementTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Abteilung">
+          <Key>
+            <PropertyRef Name="AbteilungId" />
+          </Key>
+          <Property Name="AbteilungId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_Person_Abteilung" FromRole="Abteilung" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SecondName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Plz" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Place" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AbteilungId" Type="Int32" />
+          <NavigationProperty Name="Abteilung" Relationship="Self.FK_Person_Abteilung" FromRole="Person" ToRole="Abteilung" />
+        </EntityType>
+        <Association Name="FK_Person_Abteilung">
+          <End Role="Abteilung" Type="Self.Abteilung" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Abteilung">
+              <PropertyRef Name="AbteilungId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="AbteilungId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PersonManagementTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Abteilung" EntityType="Self.Abteilung" />
+          <EntitySet Name="Person" EntityType="Self.Person" />
+          <AssociationSet Name="FK_Person_Abteilung" Association="Self.FK_Person_Abteilung">
+            <End Role="Abteilung" EntitySet="Abteilung" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PersonManagementTestModelStoreContainer" CdmEntityContainer="PersonManagementTestEntities">
+          <EntitySetMapping Name="Abteilung">
+            <EntityTypeMapping TypeName="PersonManagementTestModel.Abteilung">
+              <MappingFragment StoreEntitySet="Abteilung">
+                <ScalarProperty Name="AbteilungId" ColumnName="AbteilungId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Person">
+            <EntityTypeMapping TypeName="PersonManagementTestModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Plz" ColumnName="Plz" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="AbteilungId" ColumnName="AbteilungId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
